@@ -1,0 +1,109 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}<span id="member-page-title">Member Profile</span>{% endblock %}
+
+{% block content %}
+<div class="member-header card mb-6">
+    <div class="flex items-start gap-6 p-6">
+        <div class="member-avatar large bg-primary text-white text-3xl font-bold flex items-center justify-center rounded-full w-24 h-24" id="member-avatar-initial">
+            -
+        </div>
+        <div class="member-info flex-1">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h2 class="text-2xl font-bold mb-1" id="member-name">Loading...</h2>
+                    <p class="text-secondary mb-3"><span id="member-relationship">-</span> • <span id="member-age">-</span> years old • Blood Group: <span id="member-blood" class="font-semibold text-danger">-</span></p>
+                </div>
+                <button class="btn btn-outline btn-sm" id="btn-edit-profile">
+                    <i data-lucide="edit"></i> Edit Profile
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4 mt-4 p-4 bg-bg-secondary rounded-lg">
+                <div>
+                    <h4 class="text-sm font-semibold text-secondary mb-1">Allergies</h4>
+                    <p id="member-allergies" class="text-sm">-</p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-secondary mb-1">Conditions</h4>
+                    <p id="member-conditions" class="text-sm">-</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="section-title mb-4">Health Summary</h3>
+<div class="health-summary-grid grid grid-cols-1 md-cols-2 lg-cols-4 gap-4 mb-8">
+    <div class="stat-card">
+        <h4 class="text-sm text-secondary">Latest BP</h4>
+        <p class="text-xl font-bold mt-1" id="summary-bp">--/--</p>
+    </div>
+    <div class="stat-card">
+        <h4 class="text-sm text-secondary">Active Medicines</h4>
+        <p class="text-xl font-bold mt-1" id="summary-meds">-</p>
+    </div>
+    <div class="stat-card">
+        <h4 class="text-sm text-secondary">Next Appointment</h4>
+        <p class="text-md font-bold mt-1" id="summary-appt">None scheduled</p>
+    </div>
+    <div class="stat-card">
+        <h4 class="text-sm text-secondary">Pending Tests</h4>
+        <p class="text-xl font-bold mt-1" id="summary-tests">-</p>
+    </div>
+</div>
+
+<h3 class="section-title mb-4">Modules</h3>
+<div class="module-nav-grid grid grid-cols-2 md-cols-3 lg-cols-5 gap-4">
+    <!-- Links will be updated via JS to include member_id in query params -->
+    <a href="/records" class="module-card p-4 card hover:border-primary text-center block transition-all" id="link-records">
+        <i data-lucide="file-text" class="mx-auto mb-2 text-primary"></i>
+        <span class="font-medium">Records</span>
+    </a>
+    <a href="/medicines" class="module-card p-4 card hover:border-primary text-center block transition-all" id="link-medicines">
+        <i data-lucide="pill" class="mx-auto mb-2 text-warning"></i>
+        <span class="font-medium">Medicines</span>
+    </a>
+    <a href="/appointments" class="module-card p-4 card hover:border-primary text-center block transition-all" id="link-appointments">
+        <i data-lucide="stethoscope" class="mx-auto mb-2 text-info"></i>
+        <span class="font-medium">Appointments</span>
+    </a>
+    <a href="/tests" class="module-card p-4 card hover:border-primary text-center block transition-all" id="link-tests">
+        <i data-lucide="test-tubes" class="mx-auto mb-2 text-success"></i>
+        <span class="font-medium">Tests</span>
+    </a>
+    <a href="/vaccinations" class="module-card p-4 card hover:border-primary text-center block transition-all" id="link-vaccinations">
+        <i data-lucide="syringe" class="mx-auto mb-2 text-purple-500"></i>
+        <span class="font-medium">Vaccines</span>
+    </a>
+    <a href="/health-tracker" class="module-card p-4 card hover:border-primary text-center block transition-all" id="link-tracker">
+        <i data-lucide="activity" class="mx-auto mb-2 text-danger"></i>
+        <span class="font-medium">Vitals</span>
+    </a>
+    <a href="/timeline" class="module-card p-4 card hover:border-primary text-center block transition-all" id="link-timeline">
+        <i data-lucide="clock" class="mx-auto mb-2 text-secondary"></i>
+        <span class="font-medium">Timeline</span>
+    </a>
+    <a href="/expenses" class="module-card p-4 card hover:border-primary text-center block transition-all" id="link-expenses">
+        <i data-lucide="wallet" class="mx-auto mb-2 text-green-600"></i>
+        <span class="font-medium">Expenses</span>
+    </a>
+    <a href="/insurance" class="module-card p-4 card hover:border-primary text-center block transition-all" id="link-insurance">
+        <i data-lucide="shield" class="mx-auto mb-2 text-blue-600"></i>
+        <span class="font-medium">Insurance</span>
+    </a>
+</div>
+
+<!-- Edit Member Modal (Similar to family.html) -->
+<div id="modal-container-member"></div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Pass member ID from URL to JS
+    const urlParams = new URLSearchParams(window.location.search);
+    const memberId = urlParams.get('id');
+</script>
+<script src="{{ url_for('static', filename='js/member.js') }}"></script>
+{% endblock %}

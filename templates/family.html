@@ -1,0 +1,117 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}My Family{% endblock %}
+
+{% block content %}
+<div class="page-header flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-xl font-bold">Family Members</h2>
+        <p class="text-secondary">Manage profiles for everyone in your family</p>
+    </div>
+    <button class="btn btn-primary" id="btn-add-member">
+        <i data-lucide="user-plus"></i> Add Family Member
+    </button>
+</div>
+
+<div id="members-container" class="member-cards-grid grid grid-cols-1 md-cols-2 lg-cols-3 gap-6">
+    <!-- Populated via JS -->
+    <div class="loading-state col-span-full text-center py-8">
+        <i data-lucide="loader" class="spin mb-2"></i>
+        <p>Loading family members...</p>
+    </div>
+</div>
+
+<!-- Empty State Template (Hidden by default) -->
+<div id="empty-state" class="empty-state hidden text-center py-12">
+    <div class="empty-icon bg-primary-light inline-flex p-4 rounded-full mb-4">
+        <i data-lucide="users" size="48" class="text-primary"></i>
+    </div>
+    <h3 class="text-lg font-bold mb-2">No family members added yet</h3>
+    <p class="text-secondary mb-6">Start by adding yourself and your loved ones to track their health records.</p>
+    <button class="btn btn-primary btn-add-member">Add Your First Family Member</button>
+</div>
+
+<!-- Add/Edit Member Modal -->
+<div class="modal" id="member-modal">
+    <div class="modal-overlay" onclick="App.modal.close('member-modal')"></div>
+    <div class="modal-content max-w-md">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Add Family Member</h3>
+            <button type="button" class="modal-close" onclick="App.modal.close('member-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="member-form">
+                <input type="hidden" id="member_id" name="member_id">
+                
+                <div class="form-group">
+                    <label for="name" class="form-label">Full Name*</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Full Name" required>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="relationship" class="form-label">Relationship*</label>
+                        <select id="relationship" name="relationship" class="form-control" required>
+                            <option value="Self">Self</option>
+                            <option value="Spouse">Spouse</option>
+                            <option value="Child">Child</option>
+                            <option value="Parent">Parent</option>
+                            <option value="Sibling">Sibling</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_of_birth" class="form-label">Date of Birth*</label>
+                        <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="gender" class="form-label">Gender</label>
+                        <select id="gender" name="gender" class="form-control">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="blood_group" class="form-label">Blood Group</label>
+                        <select id="blood_group" name="blood_group" class="form-control">
+                            <option value="">Unknown</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="allergies" class="form-label">Allergies</label>
+                    <textarea id="allergies" name="allergies" class="form-control" rows="2" placeholder="e.g., Peanuts, Penicillin"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="chronic_conditions" class="form-label">Chronic Conditions</label>
+                    <textarea id="chronic_conditions" name="chronic_conditions" class="form-control" rows="2" placeholder="e.g., Diabetes, Hypertension"></textarea>
+                </div>
+                
+                <div class="modal-footer mt-4">
+                    <button type="button" class="btn btn-secondary" onclick="App.modal.close('member-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-member">Save Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/family.js') }}"></script>
+{% endblock %}

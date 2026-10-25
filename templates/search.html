@@ -1,0 +1,113 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}Search Records{% endblock %}
+
+{% block content %}
+<div class="page-header mb-4">
+    <div>
+        <h2 class="text-xl font-bold">Search Records</h2>
+        <p class="text-secondary">Search across all family members, medical records, medicines, and appointments</p>
+    </div>
+</div>
+
+<!-- Prominent Search Bar Section -->
+<div class="search-hero card p-4 mb-6">
+    <div class="search-input-wrapper">
+        <i data-lucide="search" class="search-input-icon"></i>
+        <input type="text" id="global-search-input" class="search-input-field" placeholder="Search for medicines, records, doctor visits, tests, vaccinations..." autocomplete="off">
+        <button id="btn-clear-search" class="search-clear-btn hidden" title="Clear search" type="button">
+            <i data-lucide="x" size="18"></i>
+        </button>
+    </div>
+</div>
+
+<div class="search-layout">
+    <!-- Filters Sidebar -->
+    <aside class="search-sidebar">
+        <div class="card p-5 search-sidebar-card">
+            <h3 class="font-bold mb-4 flex items-center gap-2 border-b border-border-color pb-3 text-main">
+                <i data-lucide="filter" size="18"></i> Filters
+            </h3>
+            
+            <div class="form-group mb-4">
+                <label class="form-label" for="filter-member">Family Member</label>
+                <select id="filter-member" class="form-control">
+                    <option value="">All Members</option>
+                    <!-- Populated via JS -->
+                </select>
+            </div>
+            
+            <div class="form-group mb-4">
+                <label class="form-label">Record Type</label>
+                <div class="checkbox-group flex flex-col gap-2 mt-2">
+                    <label class="flex items-center gap-2 cursor-pointer text-sm">
+                        <input type="checkbox" name="type_filter" value="medical_records" checked> Medical Records
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer text-sm">
+                        <input type="checkbox" name="type_filter" value="medicines" checked> Medicines
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer text-sm">
+                        <input type="checkbox" name="type_filter" value="appointments" checked> Appointments
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer text-sm">
+                        <input type="checkbox" name="type_filter" value="tests" checked> Tests &amp; Scans
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer text-sm">
+                        <input type="checkbox" name="type_filter" value="vaccinations" checked> Vaccinations
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group mb-4">
+                <label class="form-label" for="filter-date-range">Date Range</label>
+                <select id="filter-date-range" class="form-control mb-2">
+                    <option value="">Any Time</option>
+                    <option value="last_30_days">Last 30 Days</option>
+                    <option value="last_6_months">Last 6 Months</option>
+                    <option value="this_year">This Year</option>
+                    <option value="custom">Custom Range</option>
+                </select>
+                <div id="custom-date-fields" class="hidden flex flex-col gap-2 mt-2">
+                    <input type="date" id="filter-date-from" class="form-control text-sm" placeholder="From">
+                    <input type="date" id="filter-date-to" class="form-control text-sm" placeholder="To">
+                </div>
+            </div>
+            
+            <button id="btn-apply-filters" class="btn btn-primary w-full mt-2" type="button">
+                <i data-lucide="check" size="16"></i> Apply Filters
+            </button>
+            <button id="btn-reset-filters" class="btn btn-secondary w-full mt-2" type="button">
+                Reset Filters
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Search Results Main Content -->
+    <section class="search-main">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="font-bold text-lg text-main" id="search-results-count">Search Results</h3>
+            <div class="flex items-center gap-2">
+                <span class="text-sm text-secondary">Sort by:</span>
+                <select id="sort-results" class="form-control py-1 px-3 text-sm w-auto">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="title">Alphabetical (A-Z)</option>
+                </select>
+            </div>
+        </div>
+        
+        <div id="search-results-container" class="flex flex-col gap-4">
+            <!-- Initial State -->
+            <div class="card p-12 text-center text-secondary">
+                <i data-lucide="search" size="48" class="mx-auto mb-4 opacity-40"></i>
+                <h4 class="font-semibold text-lg text-main mb-1">Search Your Health Records</h4>
+                <p>Type keywords above or use the filters on the left to browse records.</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+{% endblock %}

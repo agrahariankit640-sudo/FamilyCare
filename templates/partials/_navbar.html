@@ -1,0 +1,65 @@
+<header class="topbar">
+    <div class="topbar-left">
+        <button id="mobile-menu-toggle" class="mobile-toggle" aria-label="Toggle menu">
+            <i data-lucide="menu"></i>
+        </button>
+        <h1 class="page-title">{% block page_title %}{% endblock %}</h1>
+    </div>
+    
+    <div class="topbar-right">
+        <button id="theme-toggle" class="icon-btn theme-toggle" aria-label="Toggle dark mode" title="Toggle Dark/Light Mode">
+            <i data-lucide="sun" class="sun-icon"></i>
+            <i data-lucide="moon" class="moon-icon hidden"></i>
+        </button>
+        
+        <div class="notification-container dropdown-wrapper">
+            <button class="icon-btn notification-btn dropdown-toggle" aria-label="Notifications" title="Notifications">
+                <i data-lucide="bell"></i>
+                <span class="badge notification-badge hidden" id="notification-badge">0</span>
+            </button>
+            <div class="dropdown-menu notification-dropdown" style="min-width: 280px; width: 300px; padding: 0;">
+                <div class="dropdown-header flex justify-between items-center p-3 border-b border-border-color">
+                    <strong class="text-sm">Notifications</strong>
+                    <a href="/notifications" class="text-xs text-primary hover:underline">View All</a>
+                </div>
+                <div class="notification-dropdown-list" id="notification-dropdown-list" style="max-height: 280px; overflow-y: auto;">
+                    <div class="p-4 text-center text-xs text-secondary">Loading...</div>
+                </div>
+                <div class="dropdown-divider" style="margin: 0;"></div>
+                <div class="p-2 text-center bg-background">
+                    <a href="/notifications" class="text-xs font-semibold text-primary hover:underline block py-1">Open Notifications Center</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="user-menu-container dropdown-wrapper">
+            <button class="user-menu-btn dropdown-toggle" aria-label="User menu">
+                <div class="user-avatar small overflow-hidden" id="navbar-user-avatar">
+                    {% if user and user.profile_photo %}
+                        <img src="{{ user.profile_photo }}" alt="{{ user.name }}" class="w-full h-full object-cover rounded-full">
+                    {% else %}
+                        <span>{{ user.name[:1].upper() if user else 'U' }}</span>
+                    {% endif %}
+                </div>
+                <i data-lucide="chevron-down" class="chevron"></i>
+            </button>
+            <div class="dropdown-menu user-dropdown">
+                <div class="dropdown-header">
+                    <strong>{{ user.name if user else 'User' }}</strong>
+                    <span>{{ user.email if user else '' }}</span>
+                </div>
+                <div class="dropdown-divider"></div>
+                <a href="/settings" class="dropdown-item">
+                    <i data-lucide="user"></i> Profile
+                </a>
+                <a href="/settings" class="dropdown-item">
+                    <i data-lucide="settings"></i> Settings
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="/logout" class="dropdown-item text-danger">
+                    <i data-lucide="log-out"></i> Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</header>

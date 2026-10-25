@@ -1,0 +1,112 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-header mb-4">
+    <h2>Welcome back, {{ user.name }}!</h2>
+    <p class="text-secondary">Here's an overview of your family's health.</p>
+</div>
+
+<!-- Summary Stats -->
+<div class="dashboard-grid stats-grid mb-6">
+    <div class="stat-card">
+        <div class="stat-icon bg-primary-light"><i data-lucide="users"></i></div>
+        <div class="stat-info">
+            <span class="stat-label">Total Family</span>
+            <h3 class="stat-value" id="stat-family-count">-</h3>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon bg-warning-light"><i data-lucide="pill"></i></div>
+        <div class="stat-info">
+            <span class="stat-label">Active Medicines</span>
+            <h3 class="stat-value" id="stat-medicines-count">-</h3>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon bg-info-light"><i data-lucide="calendar"></i></div>
+        <div class="stat-info">
+            <span class="stat-label">Upcoming Appts</span>
+            <h3 class="stat-value" id="stat-appts-count">-</h3>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon bg-danger-light"><i data-lucide="alert-circle"></i></div>
+        <div class="stat-info">
+            <span class="stat-label">Pending Follow-ups</span>
+            <h3 class="stat-value" id="stat-followups-count">-</h3>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="quick-actions-container mb-6">
+    <h3 class="section-title mb-3">Quick Actions</h3>
+    <div class="quick-actions-grid">
+        <a href="/family" class="btn btn-outline quick-action-btn">
+            <i data-lucide="user-plus"></i> Add Member
+        </a>
+        <a href="/records" class="btn btn-outline quick-action-btn">
+            <i data-lucide="file-plus"></i> Add Record
+        </a>
+        <a href="/medicines" class="btn btn-outline quick-action-btn">
+            <i data-lucide="pill"></i> Add Medicine
+        </a>
+        <a href="/appointments" class="btn btn-outline quick-action-btn">
+            <i data-lucide="calendar-plus"></i> Add Visit
+        </a>
+        <a href="/emergency" class="btn btn-danger quick-action-btn">
+            <i data-lucide="alert-triangle"></i> Emergency
+        </a>
+    </div>
+</div>
+
+<!-- Two Column Layout -->
+<div class="dashboard-columns grid grid-cols-2 gap-6">
+    <!-- Recent Activity -->
+    <div class="card">
+        <div class="card-header flex justify-between items-center mb-4">
+            <h3 class="card-title">Recent Activity</h3>
+            <a href="/timeline" class="btn-link">View All</a>
+        </div>
+        <div class="card-body">
+            <ul class="activity-list" id="dashboard-activity-list">
+                <!-- Populated via JS -->
+                <li class="loading-state">Loading activity...</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Upcoming Events -->
+    <div class="card">
+        <div class="card-header flex justify-between items-center mb-4">
+            <h3 class="card-title">Upcoming Events</h3>
+            <a href="/appointments" class="btn-link">View All</a>
+        </div>
+        <div class="card-body">
+            <div class="upcoming-events" id="dashboard-upcoming-events">
+                <!-- Populated via JS -->
+                <div class="loading-state">Loading events...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="dashboard-charts mt-6 grid grid-cols-2 gap-6">
+    <div class="card">
+        <h3 class="card-title mb-4">Health Vitals Trends</h3>
+        <canvas id="healthTrendsChart" height="250"></canvas>
+    </div>
+    <div class="card">
+        <h3 class="card-title mb-4">Expense Summary</h3>
+        <canvas id="expenseChart" height="250"></canvas>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

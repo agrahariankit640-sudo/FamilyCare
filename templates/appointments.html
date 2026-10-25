@@ -1,0 +1,138 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}Doctor Visits & Appointments{% endblock %}
+
+{% block content %}
+<div class="page-header flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-xl font-bold">Appointments</h2>
+        <p class="text-secondary">Manage doctor visits and consultations</p>
+    </div>
+    <button class="btn btn-primary" id="btn-add-appointment">
+        <i data-lucide="plus"></i> Add Appointment
+    </button>
+</div>
+
+<div class="card mb-6">
+    <div class="border-b border-border-color px-4 pt-4">
+        <ul class="tab-list" id="appointment-tabs">
+            <li><a href="javascript:void(0)" class="tab-link active font-medium pb-2 border-b-2 border-primary" data-status="upcoming">Upcoming</a></li>
+            <li><a href="javascript:void(0)" class="tab-link font-medium pb-2 text-secondary" data-status="completed">Completed</a></li>
+            <li><a href="javascript:void(0)" class="tab-link font-medium pb-2 text-secondary" data-status="cancelled">Cancelled</a></li>
+            <li><a href="javascript:void(0)" class="tab-link font-medium pb-2 text-secondary" data-status="">All</a></li>
+        </ul>
+    </div>
+    <div class="p-4">
+        <div class="filter-bar grid grid-cols-1 md-cols-3 gap-4">
+            <div class="form-group mb-0">
+                <select id="filter-member" class="form-control">
+                    <option value="">All Family Members</option>
+                    <!-- Populated via JS -->
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md-cols-2 lg-cols-3 gap-4" id="appointments-list">
+    <!-- Populated via JS -->
+    <div class="loading-state col-span-full text-center py-8">
+        <i data-lucide="loader" class="spin mb-2"></i>
+        <p>Loading appointments...</p>
+    </div>
+</div>
+
+<div id="appointments-empty" class="empty-state hidden text-center py-12">
+    <div class="empty-icon bg-info-light inline-flex p-4 rounded-full mb-4">
+        <i data-lucide="calendar" size="48" class="text-info"></i>
+    </div>
+    <h3 class="text-lg font-bold mb-2">No appointments found</h3>
+    <p class="text-secondary mb-6">Schedule and track doctor visits for your family.</p>
+    <button class="btn btn-primary btn-add-appointment">Add Appointment</button>
+</div>
+
+<!-- Add Appointment Modal -->
+<div class="modal" id="appointment-modal">
+    <div class="modal-overlay" onclick="App.modal.close('appointment-modal')"></div>
+    <div class="modal-content max-w-lg">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Add Appointment</h3>
+            <button type="button" class="modal-close" onclick="App.modal.close('appointment-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="appointment-form">
+                <input type="hidden" id="appointment_id" name="appointment_id">
+                
+                <div class="form-group">
+                    <label for="member_id" class="form-label">Family Member*</label>
+                    <select id="member_id" name="family_member_id" class="form-control" required>
+                        <!-- Populated via JS -->
+                    </select>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="doctor_name" class="form-label">Doctor Name*</label>
+                        <input type="text" id="doctor_name" name="doctor_name" class="form-control" placeholder="Dr. Sharma" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="specialization" class="form-label">Specialization</label>
+                        <input type="text" id="specialization" name="specialization" class="form-control" placeholder="e.g. Cardiologist">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="hospital_name" class="form-label">Hospital/Clinic Name</label>
+                    <input type="text" id="hospital_name" name="hospital" class="form-control" placeholder="Apollo Hospital">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="appointment_date" class="form-label">Date*</label>
+                        <input type="date" id="appointment_date" name="visit_date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment_time" class="form-label">Time</label>
+                        <input type="time" id="appointment_time" name="visit_time" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reason" class="form-label">Reason for Visit</label>
+                    <input type="text" id="reason" name="reason" class="form-control" placeholder="Regular checkup">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="status" class="form-label">Status</label>
+                        <select id="status" name="status" class="form-control">
+                            <option value="upcoming">Upcoming</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="follow_up_date" class="form-label">Follow-up Date</label>
+                        <input type="date" id="follow_up_date" name="follow_up_date" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes" class="form-label">Doctor's Advice / Notes</label>
+                    <textarea id="notes" name="notes" class="form-control" rows="2" placeholder="Prescribed medicines, dietary advice..."></textarea>
+                </div>
+                
+                <div class="modal-footer mt-4">
+                    <button type="button" class="btn btn-secondary" onclick="App.modal.close('appointment-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-appointment">Save Appointment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/appointments.js') }}"></script>
+{% endblock %}

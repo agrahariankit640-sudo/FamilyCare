@@ -1,0 +1,126 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header mb-6">
+    <h2 class="text-xl font-bold">System Administration</h2>
+    <p class="text-secondary">Manage platform users and view system activity</p>
+</div>
+
+<!-- System Stats -->
+<div class="grid grid-cols-1 md-cols-2 lg-cols-4 gap-6 mb-6">
+    <div class="stat-card card p-4">
+        <div class="flex justify-between items-start mb-2">
+            <h4 class="text-sm font-medium text-secondary">Total Users</h4>
+            <div class="bg-primary-light p-2 rounded-full"><i data-lucide="users" class="text-primary w-4 h-4"></i></div>
+        </div>
+        <p class="text-2xl font-bold" id="admin-stat-users">-</p>
+    </div>
+    
+    <div class="stat-card card p-4">
+        <div class="flex justify-between items-start mb-2">
+            <h4 class="text-sm font-medium text-secondary">Family Profiles</h4>
+            <div class="bg-success-light p-2 rounded-full"><i data-lucide="users-2" class="text-success w-4 h-4"></i></div>
+        </div>
+        <p class="text-2xl font-bold" id="admin-stat-profiles">-</p>
+    </div>
+    
+    <div class="stat-card card p-4">
+        <div class="flex justify-between items-start mb-2">
+            <h4 class="text-sm font-medium text-secondary">Medical Records</h4>
+            <div class="bg-info-light p-2 rounded-full"><i data-lucide="file-text" class="text-info w-4 h-4"></i></div>
+        </div>
+        <p class="text-2xl font-bold" id="admin-stat-records">-</p>
+    </div>
+    
+    <div class="stat-card card p-4">
+        <div class="flex justify-between items-start mb-2">
+            <h4 class="text-sm font-medium text-secondary">Total Documents</h4>
+            <div class="bg-warning-light p-2 rounded-full"><i data-lucide="files" class="text-warning w-4 h-4"></i></div>
+        </div>
+        <p class="text-2xl font-bold" id="admin-stat-docs">-</p>
+    </div>
+</div>
+
+<!-- Tabs -->
+<div class="card mb-6">
+    <div class="border-b border-border-color px-4 pt-4">
+        <ul class="flex gap-6" id="admin-tabs">
+            <li><a href="#" class="tab-link active font-medium pb-2 border-b-2 border-primary" data-tab="users">User Management</a></li>
+            <li><a href="#" class="tab-link font-medium pb-2 text-secondary" data-tab="audit">Audit Logs</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Users Tab -->
+<div id="users-section" class="tab-content block">
+    <div class="card">
+        <div class="p-4 border-b border-border-color flex justify-between items-center">
+            <h3 class="card-title">Registered Users</h3>
+            <div class="relative max-w-xs w-full">
+                <input type="text" id="admin-search-user" class="form-control pl-8 text-sm py-1.5" placeholder="Search by name or email">
+                <i data-lucide="search" class="absolute left-2.5 top-2 w-4 h-4 text-secondary"></i>
+            </div>
+        </div>
+        <div class="table-container">
+            <table class="table w-full">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Created At</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-users-list">
+                    <!-- Populated via JS -->
+                    <tr><td colspan="7" class="text-center py-4">Loading users...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Audit Logs Tab -->
+<div id="audit-section" class="tab-content hidden">
+    <div class="card">
+        <div class="p-4 border-b border-border-color flex justify-between items-center">
+            <h3 class="card-title">System Activity Log</h3>
+            <select id="admin-filter-action" class="form-control text-sm py-1.5 w-auto">
+                <option value="">All Actions</option>
+                <option value="login">Logins</option>
+                <option value="create">Creations</option>
+                <option value="update">Updates</option>
+                <option value="delete">Deletions</option>
+            </select>
+        </div>
+        <div class="table-container">
+            <table class="table w-full">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>User ID</th>
+                        <th>Action</th>
+                        <th>Table Name</th>
+                        <th>Record ID</th>
+                        <th>IP Address</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-audit-list">
+                    <!-- Populated via JS -->
+                    <tr><td colspan="6" class="text-center py-4">Loading audit logs...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}Health Tracker{% endblock %}
+
+{% block content %}
+<div class="page-header flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-xl font-bold">Vitals & Health Tracker</h2>
+        <p class="text-secondary">Monitor important health metrics over time</p>
+    </div>
+    <button class="btn btn-primary" id="btn-add-reading">
+        <i data-lucide="plus"></i> Record Parameter
+    </button>
+</div>
+
+<div class="card mb-6 p-4">
+    <div class="filter-bar flex justify-between items-center flex-wrap gap-4">
+        <div class="form-group mb-0 flex-1 max-w-xs">
+            <label for="filter-member" class="sr-only">Family Member</label>
+            <select id="filter-member" class="form-control">
+                <option value="">Select Family Member</option>
+                <!-- Populated via JS -->
+            </select>
+        </div>
+        
+        <div class="parameter-tabs flex gap-2 overflow-x-auto pb-2" id="parameter-tabs">
+            <button class="btn btn-sm btn-primary" data-param="Blood Pressure">Blood Pressure</button>
+            <button class="btn btn-sm btn-outline" data-param="Heart Rate">Heart Rate</button>
+            <button class="btn btn-sm btn-outline" data-param="Blood Sugar">Blood Sugar</button>
+            <button class="btn btn-sm btn-outline" data-param="Weight">Weight</button>
+            <button class="btn btn-sm btn-outline" data-param="Temperature">Temperature</button>
+            <button class="btn btn-sm btn-outline" data-param="SpO2">SpO2</button>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg-cols-3 gap-6">
+    <div class="lg:col-span-2">
+        <div class="card p-4 h-full">
+            <h3 class="card-title mb-4" id="chart-title">Blood Pressure Trends</h3>
+            <div class="chart-container" style="position: relative; height:300px; width:100%">
+                <canvas id="healthChart"></canvas>
+            </div>
+            <div id="chart-empty" class="hidden text-center py-12 text-secondary">
+                No data available for the selected parameters.
+            </div>
+        </div>
+    </div>
+    
+    <div class="card h-full">
+        <div class="card-header border-b border-border-color p-4">
+            <h3 class="card-title">Recent Readings</h3>
+        </div>
+        <div class="p-0 overflow-y-auto" style="max-height: 350px;">
+            <table class="table w-full text-sm">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody id="readings-list">
+                    <!-- Populated via JS -->
+                    <tr><td colspan="2" class="text-center py-4">Select a member to view readings</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Reading Modal -->
+<div class="modal" id="reading-modal">
+    <div class="modal-overlay" onclick="App.modal.close('reading-modal')"></div>
+    <div class="modal-content max-w-sm">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Record Health Parameter</h3>
+            <button type="button" class="modal-close" onclick="App.modal.close('reading-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="reading-form">
+                
+                <div class="form-group">
+                    <label for="member_id" class="form-label">Family Member*</label>
+                    <select id="member_id" name="family_member_id" class="form-control" required>
+                        <!-- Populated via JS -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="parameter_type" class="form-label">Parameter*</label>
+                    <select id="parameter_type" name="parameter_name" class="form-control" required>
+                        <option value="Blood Pressure">Blood Pressure</option>
+                        <option value="Heart Rate">Heart Rate</option>
+                        <option value="Blood Sugar">Blood Sugar</option>
+                        <option value="Weight">Weight</option>
+                        <option value="Temperature">Temperature</option>
+                        <option value="SpO2">SpO2 (Oxygen)</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="value" class="form-label">Value*</label>
+                    <input type="text" id="value" name="value" class="form-control" required placeholder="e.g. 120/80, 98">
+                    <p class="text-xs text-secondary mt-1" id="unit-hint">E.g., mmHg for BP, mg/dL for Blood Sugar.</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reading_date" class="form-label">Date & Time*</label>
+                    <input type="datetime-local" id="reading_date" name="reading_date" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes" class="form-label">Notes</label>
+                    <input type="text" id="notes" name="notes" class="form-control" placeholder="Optional context">
+                </div>
+                
+                <div class="modal-footer mt-4">
+                    <button type="button" class="btn btn-secondary" onclick="App.modal.close('reading-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-reading">Save Reading</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/health-tracker.js') }}"></script>
+{% endblock %}

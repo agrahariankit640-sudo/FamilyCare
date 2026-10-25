@@ -1,0 +1,152 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}Medicines{% endblock %}
+
+{% block content %}
+<div class="page-header flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-xl font-bold">Medicines</h2>
+        <p class="text-secondary">Track active and past medications</p>
+    </div>
+    <button class="btn btn-primary" id="btn-add-medicine">
+        <i data-lucide="plus"></i> Add Medicine
+    </button>
+</div>
+
+<div class="card mb-6">
+    <div class="border-b border-border-color px-4 pt-4">
+        <ul class="flex gap-6" id="medicine-tabs">
+            <li><a href="#" class="tab-link active font-medium pb-2 border-b-2 border-primary" data-status="Active">Active</a></li>
+            <li><a href="#" class="tab-link font-medium pb-2 text-secondary" data-status="Completed">Completed</a></li>
+            <li><a href="#" class="tab-link font-medium pb-2 text-secondary" data-status="Stopped">Stopped</a></li>
+            <li><a href="#" class="tab-link font-medium pb-2 text-secondary" data-status="">All</a></li>
+        </ul>
+    </div>
+    <div class="p-4">
+        <div class="filter-bar grid grid-cols-1 md-cols-3 gap-4">
+            <div class="form-group mb-0">
+                <select id="filter-member" class="form-control">
+                    <option value="">All Family Members</option>
+                    <!-- Populated via JS -->
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-container card">
+    <table class="table w-full" id="medicines-table">
+        <thead>
+            <tr>
+                <th>Medicine</th>
+                <th>Member</th>
+                <th>Dosage & Frequency</th>
+                <th>Duration</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="medicines-list">
+            <!-- Populated via JS -->
+            <tr><td colspan="6" class="text-center py-4">Loading medicines...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="medicines-empty" class="empty-state hidden text-center py-12">
+    <div class="empty-icon bg-warning-light inline-flex p-4 rounded-full mb-4">
+        <i data-lucide="pill" size="48" class="text-warning"></i>
+    </div>
+    <h3 class="text-lg font-bold mb-2">No medicines found</h3>
+    <p class="text-secondary mb-6">Keep track of your family's prescriptions and dosages.</p>
+    <button class="btn btn-primary btn-add-medicine">Add Medicine</button>
+</div>
+
+<!-- Add Medicine Modal -->
+<div class="modal" id="medicine-modal">
+    <div class="modal-overlay" onclick="App.modal.close('medicine-modal')"></div>
+    <div class="modal-content max-w-lg">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Add Medicine</h3>
+            <button type="button" class="modal-close" onclick="App.modal.close('medicine-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="medicine-form">
+                <input type="hidden" id="medicine_id" name="medicine_id">
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="member_id" class="form-label">Family Member*</label>
+                        <select id="member_id" name="family_member_id" class="form-control" required>
+                            <!-- Populated via JS -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="form-label">Medicine Name*</label>
+                        <input type="text" id="name" name="name" class="form-control" required placeholder="e.g. Paracetamol">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="dosage" class="form-label">Dosage</label>
+                        <input type="text" id="dosage" name="dosage" class="form-control" placeholder="e.g. 500mg">
+                    </div>
+                    <div class="form-group">
+                        <label for="frequency" class="form-label">Frequency*</label>
+                        <select id="frequency" name="frequency" class="form-control" required>
+                            <option value="Once Daily">Once Daily</option>
+                            <option value="Twice Daily">Twice Daily</option>
+                            <option value="Thrice Daily">Thrice Daily</option>
+                            <option value="As Needed">As Needed</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Custom">Custom</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="start_date" class="form-label">Start Date*</label>
+                        <input type="date" id="start_date" name="start_date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="end_date" class="form-label">End Date</label>
+                        <input type="date" id="end_date" name="end_date" class="form-control" placeholder="Leave blank if ongoing">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="instructions" class="form-label">Instructions</label>
+                        <select id="instructions" name="instructions" class="form-control">
+                            <option value="After Food">After Food</option>
+                            <option value="Before Food">Before Food</option>
+                            <option value="Empty Stomach">Empty Stomach</option>
+                            <option value="None">None</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="status" class="form-label">Status</label>
+                        <select id="status" name="status" class="form-control">
+                            <option value="active">Active</option>
+                            <option value="completed">Completed</option>
+                            <option value="stopped">Stopped</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="modal-footer mt-4">
+                    <button type="button" class="btn btn-secondary" onclick="App.modal.close('medicine-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-medicine">Save Medicine</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/medicines.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}Emergency Information{% endblock %}
+
+{% block content %}
+<div class="page-header flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-2xl font-bold text-danger flex items-center gap-2">
+            <i data-lucide="alert-triangle"></i> Emergency Access
+        </h2>
+        <p class="text-secondary">Critical medical information at a glance</p>
+    </div>
+</div>
+
+<div class="card mb-6 p-4">
+    <div class="form-group mb-0 max-w-sm">
+        <label for="filter-member" class="sr-only">Select Family Member</label>
+        <select id="filter-member" class="form-control form-control-lg border-2 border-danger-light">
+            <option value="all">Show All Family Members</option>
+            <!-- Populated via JS -->
+        </select>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 gap-6" id="emergency-cards-container">
+    <!-- Populated via JS -->
+    <div class="loading-state text-center py-8">
+        <i data-lucide="loader" class="spin mb-2"></i>
+        <p>Loading emergency profiles...</p>
+    </div>
+</div>
+
+<div id="emergency-empty" class="empty-state hidden text-center py-12">
+    <div class="empty-icon bg-danger-light inline-flex p-4 rounded-full mb-4">
+        <i data-lucide="alert-triangle" size="48" class="text-danger"></i>
+    </div>
+    <h3 class="text-lg font-bold mb-2">No profiles available</h3>
+    <p class="text-secondary mb-6">Add family members to see their emergency information here.</p>
+    <a href="/family" class="btn btn-primary">Go to My Family</a>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/emergency.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,267 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}Settings{% endblock %}
+
+{% block content %}
+<div class="page-header mb-6">
+    <h2 class="text-xl font-bold">Account Settings</h2>
+    <p class="text-secondary">Manage your profile, security, and preferences</p>
+</div>
+
+<div class="grid grid-cols-1 md-cols-4 gap-6">
+    <!-- Settings Sidebar Navigation -->
+    <div class="md:col-span-1">
+        <div class="card">
+            <div class="nav-vertical flex flex-col p-2" id="settings-nav">
+                <a href="#profile" class="p-3 rounded flex items-center gap-3 bg-bg-secondary font-medium text-primary active-tab">
+                    <i data-lucide="user"></i> Profile Details
+                </a>
+                <a href="#security" class="p-3 rounded flex items-center gap-3 hover:bg-bg-secondary text-secondary">
+                    <i data-lucide="lock"></i> Security
+                </a>
+                <a href="#notifications" class="p-3 rounded flex items-center gap-3 hover:bg-bg-secondary text-secondary">
+                    <i data-lucide="bell"></i> Notifications
+                </a>
+                <a href="#data" class="p-3 rounded flex items-center gap-3 hover:bg-bg-secondary text-secondary">
+                    <i data-lucide="database"></i> Data & Export
+                </a>
+                <a href="#about" class="p-3 rounded flex items-center gap-3 hover:bg-bg-secondary text-secondary">
+                    <i data-lucide="info"></i> About App
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Content Sections -->
+    <div class="md:col-span-3 relative">
+        
+        <!-- Profile Section -->
+        <div id="profile" class="settings-section block">
+            <div class="card">
+                <div class="card-header border-b border-border-color p-4">
+                    <h3 class="card-title">Profile Details</h3>
+                </div>
+                <div class="card-body p-6">
+                    <form id="profile-form">
+                        <div class="flex items-center gap-6 mb-6">
+                            <div class="avatar-upload relative" style="position: relative; width: 80px; height: 80px;">
+                                <div class="w-20 h-20 bg-primary text-white text-2xl font-bold rounded-full flex items-center justify-center uppercase overflow-hidden cursor-pointer shadow-sm" id="settings-avatar" title="Click to upload profile photo" style="width: 80px; height: 80px; border-radius: 50%;">
+                                    {% if user and user.profile_photo %}
+                                        <img src="{{ user.profile_photo }}" alt="{{ user.name }}" class="w-full h-full object-cover rounded-full" id="settings-avatar-img" style="width: 100%; height: 100%; object-fit: cover;">
+                                    {% else %}
+                                        <span id="settings-avatar-initial">{{ user.name[:1] if user else 'U' }}</span>
+                                    {% endif %}
+                                </div>
+                                <button type="button" id="btn-change-avatar" class="avatar-camera-btn" title="Upload new photo" style="position: absolute; bottom: 0; right: 0; background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-text-secondary); box-shadow: var(--shadow-sm);">
+                                    <i data-lucide="camera" size="14"></i>
+                                </button>
+                                <input type="file" id="avatar-file-input" accept="image/png, image/jpeg, image/jpg, image/gif, image/webp" class="hidden" style="display: none;">
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">Profile Photo</h4>
+                                <p class="text-xs text-secondary mb-2">JPG, GIF, PNG or WEBP. Max size 2MB</p>
+                                <div class="flex gap-2">
+                                    <button type="button" class="btn btn-sm btn-outline-primary py-1 px-3" id="btn-upload-avatar-text">Upload Photo</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger py-1 px-3 {% if not user or not user.profile_photo %}hidden{% endif %}" id="btn-remove-avatar">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md-cols-2 gap-4">
+                            <div class="form-group">
+                                <label for="profile_name" class="form-label">Full Name</label>
+                                <input type="text" id="profile_name" name="name" class="form-control" value="{{ user.name if user else '' }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="profile_email" class="form-label">Email Address</label>
+                                <input type="email" id="profile_email" name="email" class="form-control" value="{{ user.email if user else '' }}" required readonly>
+                                <p class="text-xs text-secondary mt-1">Email cannot be changed.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md-cols-2 gap-4 mt-2">
+                            <div class="form-group">
+                                <label for="profile_phone" class="form-label">Phone Number</label>
+                                <input type="tel" id="profile_phone" name="phone" class="form-control" placeholder="+1 (555) 000-0000" value="{{ user.phone if user and user.phone else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="setting-currency" class="form-label font-medium">Default Currency</label>
+                                <select id="setting-currency" name="currency" class="form-control currency-selector">
+                                    <option value="INR">₹ INR - Indian Rupee (India)</option>
+                                    <option value="USD">$ USD - US Dollar (United States)</option>
+                                    <option value="EUR">€ EUR - Euro (European Union)</option>
+                                    <option value="GBP">£ GBP - British Pound (UK)</option>
+                                    <option value="AED">AED - UAE Dirham (UAE)</option>
+                                    <option value="CAD">CA$ CAD - Canadian Dollar (Canada)</option>
+                                    <option value="AUD">AU$ AUD - Australian Dollar (Australia)</option>
+                                </select>
+                                <p class="text-xs text-secondary mt-1">Applied across Medical Expenses and Insurance.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 border-t border-border-color pt-4 flex justify-end">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Security Section -->
+        <div id="security" class="settings-section hidden">
+            <div class="card">
+                <div class="card-header border-b border-border-color p-4">
+                    <h3 class="card-title">Change Password</h3>
+                </div>
+                <div class="card-body p-6">
+                    <form id="password-form">
+                        <div class="form-group max-w-md">
+                            <label for="current_password" class="form-label">Current Password</label>
+                            <div class="password-input-group">
+                                <input type="password" id="current_password" name="current_password" class="form-control" required>
+                                <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                                    <i data-lucide="eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group max-w-md">
+                            <label for="new_password" class="form-label">New Password</label>
+                            <div class="password-input-group">
+                                <input type="password" id="new_password" name="new_password" class="form-control" required>
+                                <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                                    <i data-lucide="eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group max-w-md">
+                            <label for="confirm_password" class="form-label">Confirm New Password</label>
+                            <div class="password-input-group">
+                                <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+                                <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                                    <i data-lucide="eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 border-t border-border-color pt-4">
+                            <button type="submit" class="btn btn-primary">Update Password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Notifications Section -->
+        <div id="notifications" class="settings-section hidden">
+            <div class="card">
+                <div class="card-header border-b border-border-color p-4">
+                    <h3 class="card-title">Notification Preferences</h3>
+                </div>
+                <div class="card-body p-6 flex flex-col gap-4">
+                    <div class="flex items-center justify-between py-2 border-b border-border-color">
+                        <div>
+                            <h4 class="font-medium">Medicine Reminders</h4>
+                            <p class="text-sm text-secondary">Receive alerts for scheduled medicines.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="flex items-center justify-between py-2 border-b border-border-color">
+                        <div>
+                            <h4 class="font-medium">Upcoming Appointments</h4>
+                            <p class="text-sm text-secondary">Reminders for doctor visits 24h before.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="flex items-center justify-between py-2 border-b border-border-color">
+                        <div>
+                            <h4 class="font-medium">Vaccination Due Dates</h4>
+                            <p class="text-sm text-secondary">Alerts for upcoming vaccine doses.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="flex items-center justify-between py-2">
+                        <div>
+                            <h4 class="font-medium">Email Digest</h4>
+                            <p class="text-sm text-secondary">Receive a weekly summary of family health via email.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Data & Export Section -->
+        <div id="data" class="settings-section hidden">
+            <div class="card mb-6">
+                <div class="card-header border-b border-border-color p-4">
+                    <h3 class="card-title">Export Data</h3>
+                </div>
+                <div class="card-body p-6">
+                    <p class="mb-4 text-secondary">Download a copy of all your family health records, medicines, and appointments.</p>
+                    <div class="flex gap-4">
+                        <button class="btn btn-outline flex items-center gap-2" id="btn-export-csv">
+                            <i data-lucide="file-spreadsheet"></i> Export as CSV
+                        </button>
+                        <button class="btn btn-outline flex items-center gap-2" id="btn-export-json">
+                            <i data-lucide="file-json"></i> Export as JSON
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card border border-danger-light">
+                <div class="card-header border-b border-border-color p-4 bg-danger-light bg-opacity-20">
+                    <h3 class="card-title text-danger">Danger Zone</h3>
+                </div>
+                <div class="card-body p-6">
+                    <h4 class="font-bold mb-2">Delete Account</h4>
+                    <p class="text-sm text-secondary mb-4">Once you delete your account, there is no going back. All family profiles, medical records, and data will be permanently erased.</p>
+                    <button class="btn btn-danger" id="btn-delete-account">Delete Account</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- About Section -->
+        <div id="about" class="settings-section hidden">
+            <div class="card">
+                <div class="card-body p-8 text-center">
+                    <i data-lucide="heart-pulse" size="64" class="text-primary mx-auto mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-2">FamilyCare</h3>
+                    <p class="text-secondary mb-6">Version 1.0.0</p>
+                    
+                    <div class="text-left max-w-lg mx-auto bg-bg-secondary p-6 rounded-lg text-sm">
+                        <h4 class="font-bold mb-2">Privacy & Security</h4>
+                        <p class="mb-4 text-secondary">Your data is encrypted and securely stored. We never share your personal health information with third parties.</p>
+                        
+                        <h4 class="font-bold mb-2">Disclaimer</h4>
+                        <p class="text-secondary">FamilyCare is a record-keeping application. It does not provide medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider for medical decisions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+{% endblock %}

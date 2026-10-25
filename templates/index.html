@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FamilyCare - Your Family's Health, Organized in One Place</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .landing-page { padding: 0; margin: 0; overflow-x: hidden; }
+        .landing-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; background: var(--bg-primary); border-bottom: 1px solid var(--border-color); }
+        .landing-header .logo { font-size: 1.5rem; font-weight: bold; display: flex; align-items: center; gap: 0.5rem; color: var(--primary-color); }
+        .landing-nav { display: flex; gap: 2rem; align-items: center; }
+        .landing-nav a { color: var(--text-primary); text-decoration: none; font-weight: 500; }
+        .landing-nav a:hover { color: var(--primary-color); }
+        .hero-section { text-align: center; padding: 5rem 5%; background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%); }
+        .hero-section h1 { font-size: 3rem; margin-bottom: 1rem; color: var(--text-primary); }
+        .hero-section p { font-size: 1.25rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 2rem; }
+        .hero-cta { display: flex; gap: 1rem; justify-content: center; }
+        .features-section { padding: 5rem 5%; background: var(--bg-primary); }
+        .features-section h2 { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: var(--text-primary); }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .feature-card { padding: 2rem; border-radius: 8px; background: var(--bg-secondary); border: 1px solid var(--border-color); text-align: center; }
+        .feature-card i { width: 48px; height: 48px; color: var(--primary-color); margin-bottom: 1rem; }
+        .feature-card h3 { margin-bottom: 0.5rem; }
+        .how-it-works { padding: 5rem 5%; background: var(--bg-secondary); text-align: center; }
+        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .step { padding: 2rem; }
+        .step-number { width: 40px; height: 40px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; margin: 0 auto 1rem; }
+        .security-section { padding: 5rem 5%; background: var(--bg-primary); text-align: center; }
+        .cta-section { padding: 5rem 5%; background: var(--primary-color); color: white; text-align: center; }
+        .cta-section h2 { margin-bottom: 1rem; }
+        .landing-footer { padding: 2rem 5%; background: var(--bg-secondary); text-align: center; border-top: 1px solid var(--border-color); }
+    </style>
+</head>
+<body class="landing-page">
+    <header class="landing-header">
+        <div class="logo">
+            <i data-lucide="heart-pulse"></i>
+            <span>FamilyCare</span>
+        </div>
+        <nav class="landing-nav">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#security">Security</a>
+            <a href="/login" class="btn btn-outline">Login</a>
+            <a href="/register" class="btn btn-primary">Get Started</a>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <h1>Your Family's Health, Organized in One Place.</h1>
+        <p>A comprehensive digital health record system to track medical history, medicines, doctor visits, and more for your entire family.</p>
+        <div class="hero-cta">
+            <a href="/register" class="btn btn-primary btn-large">Get Started Free</a>
+            <a href="/login" class="btn btn-outline btn-large">Login</a>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <h2>Everything You Need</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i data-lucide="users"></i>
+                <h3>Family Profiles</h3>
+                <p>Manage health profiles for every family member.</p>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="file-text"></i>
+                <h3>Medical Records</h3>
+                <p>Store and organize reports, prescriptions, and scans.</p>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="pill"></i>
+                <h3>Medicine Tracking</h3>
+                <p>Track current and past medications effortlessly.</p>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="bell"></i>
+                <h3>Smart Reminders</h3>
+                <p>Never miss a dose with medication reminders.</p>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="stethoscope"></i>
+                <h3>Doctor Visits</h3>
+                <p>Log appointments and follow-up schedules.</p>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="shield"></i>
+                <h3>Insurance Management</h3>
+                <p>Keep track of policies and claims in one place.</p>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="wallet"></i>
+                <h3>Expense Tracking</h3>
+                <p>Monitor medical expenses and categories.</p>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="alert-triangle"></i>
+                <h3>Emergency Access</h3>
+                <p>Quick access to critical info during emergencies.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+        <h2>How It Works</h2>
+        <div class="steps-grid">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Create Account</h3>
+                <p>Sign up securely in seconds.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Add Family</h3>
+                <p>Create profiles for your family members.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Manage Health</h3>
+                <p>Start logging records, medicines, and more.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="security" class="security-section">
+        <h2>Secure & Private</h2>
+        <p>Your data is encrypted and strictly private. You control who has access to your family's health information.</p>
+    </section>
+
+    <section class="cta-section">
+        <h2>Start Managing Your Family's Health Today</h2>
+        <a href="/register" class="btn btn-secondary btn-large">Create Your Free Account</a>
+    </section>
+
+    <footer class="landing-footer">
+        <p>&copy; 2026 FamilyCare. All rights reserved.</p>
+        <p class="text-sm mt-2 text-secondary">Disclaimer: FamilyCare is for record-keeping and is not a substitute for professional medical advice.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

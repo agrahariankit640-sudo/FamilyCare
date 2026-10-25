@@ -1,0 +1,126 @@
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">
+            <i data-lucide="heart-pulse"></i>
+            <span>FamilyCare</span>
+        </div>
+        <button class="mobile-close" aria-label="Close menu">
+            <i data-lucide="x"></i>
+        </button>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <ul>
+            <li>
+                <a href="/dashboard" data-page="dashboard" class="nav-link">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/family" data-page="family" class="nav-link">
+                    <i data-lucide="users"></i>
+                    <span>My Family</span>
+                </a>
+            </li>
+            <li>
+                <a href="/records" data-page="records" class="nav-link">
+                    <i data-lucide="file-text"></i>
+                    <span>Health Records</span>
+                </a>
+            </li>
+            <li>
+                <a href="/medicines" data-page="medicines" class="nav-link">
+                    <i data-lucide="pill"></i>
+                    <span>Medicines</span>
+                </a>
+            </li>
+            <li>
+                <a href="/reminders" data-page="reminders" class="nav-link">
+                    <i data-lucide="bell-ring"></i>
+                    <span>Reminders</span>
+                </a>
+            </li>
+            <li>
+                <a href="/appointments" data-page="appointments" class="nav-link">
+                    <i data-lucide="stethoscope"></i>
+                    <span>Doctor Visits</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tests" data-page="tests" class="nav-link">
+                    <i data-lucide="test-tubes"></i>
+                    <span>Tests & Follow-ups</span>
+                </a>
+            </li>
+            <li>
+                <a href="/vaccinations" data-page="vaccinations" class="nav-link">
+                    <i data-lucide="syringe"></i>
+                    <span>Vaccinations</span>
+                </a>
+            </li>
+            <li>
+                <a href="/health-tracker" data-page="health-tracker" class="nav-link">
+                    <i data-lucide="activity"></i>
+                    <span>Health Tracker</span>
+                </a>
+            </li>
+            <li>
+                <a href="/timeline" data-page="timeline" class="nav-link">
+                    <i data-lucide="clock"></i>
+                    <span>Timeline</span>
+                </a>
+            </li>
+            <li>
+                <a href="/expenses" data-page="expenses" class="nav-link">
+                    <i data-lucide="wallet"></i>
+                    <span>Expenses</span>
+                </a>
+            </li>
+            <li>
+                <a href="/insurance" data-page="insurance" class="nav-link">
+                    <i data-lucide="shield"></i>
+                    <span>Insurance</span>
+                </a>
+            </li>
+            
+            <li class="nav-separator"></li>
+            
+            <li>
+                <a href="/emergency" data-page="emergency" class="nav-link nav-emergency">
+                    <i data-lucide="alert-triangle"></i>
+                    <span>Emergency</span>
+                </a>
+            </li>
+            <li>
+                <a href="/search" data-page="search" class="nav-link">
+                    <i data-lucide="search"></i>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="/notifications" data-page="notifications" class="nav-link">
+                    <i data-lucide="bell"></i>
+                    <span>Notifications</span>
+                    <span class="badge notification-badge hidden">0</span>
+                </a>
+            </li>
+            <li>
+                <a href="/settings" data-page="settings" class="nav-link">
+                    <i data-lucide="settings"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+            
+            {% if user and user.role == 'admin' %}
+            <li class="nav-separator"></li>
+            <li>
+                <a href="/admin" data-page="admin" class="nav-link">
+                    <i data-lucide="shield-check"></i>
+                    <span>Admin Dashboard</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</aside>

@@ -1,0 +1,221 @@
+/* ==========================================================================
+   FamilyCare Design System - Responsive Stylesheet
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Large Desktop (1280px and up)
+   -------------------------------------------------------------------------- */
+@media (min-width: 1280px) {
+  .content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Desktop (1024px to 1279px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1279px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Tablet (768px to 1023px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  :root {
+    --sidebar-width: 80px;
+  }
+  
+  .sidebar-header h2 {
+    display: none;
+  }
+  
+  .sidebar-nav a span {
+    display: none;
+  }
+  
+  .sidebar-nav a {
+    justify-content: center;
+    padding: var(--spacing-4);
+  }
+  
+  .sidebar-nav .nav-icon {
+    margin-right: 0;
+  }
+  
+  .sidebar-footer {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .sidebar-footer .user-info {
+    display: none;
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Mobile (max-width: 767px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  :root {
+    --sidebar-width: 260px; /* Reset for mobile menu */
+  }
+
+  .app-layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 35;
+  }
+
+  .sidebar.open + .sidebar-overlay {
+    display: block;
+  }
+
+  .sidebar-header h2 {
+    display: block;
+  }
+
+  .sidebar-nav a span {
+    display: inline;
+  }
+
+  .sidebar-nav a {
+    justify-content: flex-start;
+    padding: var(--spacing-3) var(--spacing-6);
+  }
+
+  .sidebar-nav .nav-icon {
+    margin-right: var(--spacing-3);
+  }
+
+  .sidebar-footer .user-info {
+    display: block;
+  }
+
+  .mobile-close {
+    display: flex !important;
+  }
+
+  .mobile-toggle,
+  .mobile-menu-toggle {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    padding: var(--spacing-2);
+  }
+
+  .topbar {
+    padding: 0 var(--spacing-4);
+  }
+
+  .content-wrapper {
+    padding: var(--spacing-4);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-section {
+    padding: var(--spacing-8) var(--spacing-4);
+  }
+  
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .card-header, .card-body, .card-footer {
+    padding: var(--spacing-4);
+  }
+
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal {
+    max-width: 95%;
+    margin: var(--spacing-4);
+  }
+
+  .toast-container {
+    left: var(--spacing-4);
+    right: var(--spacing-4);
+    bottom: var(--spacing-4);
+  }
+  
+  .toast {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .landing-nav {
+    display: none;
+  }
+
+  .landing-header {
+    padding: var(--spacing-4);
+  }
+  
+  .auth-card {
+    padding: var(--spacing-4);
+  }
+
+  .timeline::before {
+    left: 11px;
+  }
+  
+  .search-bar {
+    max-width: 100%;
+  }
+}

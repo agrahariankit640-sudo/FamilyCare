@@ -1,0 +1,65 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}Health Timeline{% endblock %}
+
+{% block content %}
+<div class="page-header flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-xl font-bold">Health Timeline</h2>
+        <p class="text-secondary">Chronological view of all health events</p>
+    </div>
+</div>
+
+<div class="card mb-8 p-4">
+    <div class="filter-bar grid grid-cols-1 md-cols-4 gap-4">
+        <div class="form-group mb-0">
+            <select id="filter-member" class="form-control">
+                <option value="">All Family Members</option>
+                <!-- Populated via JS -->
+            </select>
+        </div>
+        <div class="form-group mb-0">
+            <select id="filter-type" class="form-control">
+                <option value="">All Event Types</option>
+                <option value="record">Medical Records</option>
+                <option value="medicine">Medicines</option>
+                <option value="appointment">Appointments</option>
+                <option value="test">Tests</option>
+                <option value="vaccination">Vaccinations</option>
+            </select>
+        </div>
+        <div class="form-group mb-0">
+            <input type="date" id="filter-date-from" class="form-control" placeholder="From Date">
+        </div>
+        <div class="form-group mb-0">
+            <input type="date" id="filter-date-to" class="form-control" placeholder="To Date">
+        </div>
+    </div>
+</div>
+
+<!-- Timeline Container -->
+<div class="timeline-container relative pl-4 md:pl-0 max-w-3xl mx-auto">
+    <div class="timeline-line absolute left-8 top-0 bottom-0 w-0.5 bg-border-color hidden md:block"></div>
+    
+    <div id="timeline-events">
+        <!-- Populated via JS -->
+        <div class="loading-state text-center py-8">
+            <i data-lucide="loader" class="spin mb-2"></i>
+            <p>Building timeline...</p>
+        </div>
+    </div>
+</div>
+
+<div id="timeline-empty" class="empty-state hidden text-center py-12">
+    <div class="empty-icon bg-secondary-light inline-flex p-4 rounded-full mb-4">
+        <i data-lucide="clock" size="48" class="text-secondary"></i>
+    </div>
+    <h3 class="text-lg font-bold mb-2">No timeline events found</h3>
+    <p class="text-secondary mb-6">Start adding medical records, appointments, and medicines to build the timeline.</p>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/timeline.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}Notifications{% endblock %}
+
+{% block content %}
+<div class="page-header flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-xl font-bold">Notifications</h2>
+        <p class="text-secondary">Updates, reminders, and alerts</p>
+    </div>
+    <button class="btn btn-outline" id="btn-mark-all-read">
+        <i data-lucide="check-check"></i> Mark All as Read
+    </button>
+</div>
+
+<div class="card mb-6">
+    <div class="border-b border-border-color px-4 pt-4">
+        <ul class="flex gap-6" id="notification-tabs">
+            <li><a href="#" class="tab-link active font-medium pb-2 border-b-2 border-primary" data-filter="all">All Notifications</a></li>
+            <li><a href="#" class="tab-link font-medium pb-2 text-secondary" data-filter="unread">Unread <span class="badge bg-primary text-white ml-1 text-xs" id="unread-count-tab">0</span></a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="card">
+    <div class="notifications-list flex flex-col" id="notifications-container">
+        <!-- Populated via JS -->
+        <div class="loading-state text-center py-8">
+            <i data-lucide="loader" class="spin mb-2"></i>
+            <p>Loading notifications...</p>
+        </div>
+    </div>
+</div>
+
+<div id="notifications-empty" class="empty-state hidden text-center py-12">
+    <div class="empty-icon bg-secondary-light inline-flex p-4 rounded-full mb-4">
+        <i data-lucide="bell" size="48" class="text-secondary"></i>
+    </div>
+    <h3 class="text-lg font-bold mb-2">You're all caught up!</h3>
+    <p class="text-secondary">You don't have any new notifications at the moment.</p>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
+{% endblock %}

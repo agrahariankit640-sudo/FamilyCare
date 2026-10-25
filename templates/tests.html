@@ -1,0 +1,131 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}Tests & Follow-ups{% endblock %}
+
+{% block content %}
+<div class="page-header flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-xl font-bold">Lab Tests & Follow-ups</h2>
+        <p class="text-secondary">Track diagnostic tests and upcoming follow-ups</p>
+    </div>
+    <button class="btn btn-primary" id="btn-add-test">
+        <i data-lucide="plus"></i> Add Test
+    </button>
+</div>
+
+<div class="card mb-6 p-4">
+    <div class="filter-bar grid grid-cols-1 md-cols-4 gap-4">
+        <div class="form-group mb-0">
+            <select id="filter-member" class="form-control">
+                <option value="">All Family Members</option>
+                <!-- Populated via JS -->
+            </select>
+        </div>
+        <div class="form-group mb-0">
+            <input type="date" id="filter-date-from" class="form-control" placeholder="From Date">
+        </div>
+        <div class="form-group mb-0">
+            <input type="date" id="filter-date-to" class="form-control" placeholder="To Date">
+        </div>
+    </div>
+    <div class="mt-4 border-t border-border-color pt-4">
+        <ul class="flex gap-6" id="test-tabs">
+            <li><a href="#" class="tab-link active font-medium pb-2 border-b-2 border-primary" data-filter="All">All Tests</a></li>
+            <li><a href="#" class="tab-link font-medium pb-2 text-secondary" data-filter="Pending Follow-ups">Pending Follow-ups</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="table-container card">
+    <table class="table w-full" id="tests-table">
+        <thead>
+            <tr>
+                <th>Test Name</th>
+                <th>Member</th>
+                <th>Date</th>
+                <th>Result Summary</th>
+                <th>Follow-up Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tests-list">
+            <!-- Populated via JS -->
+            <tr><td colspan="6" class="text-center py-4">Loading tests...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="tests-empty" class="empty-state hidden text-center py-12">
+    <div class="empty-icon bg-success-light inline-flex p-4 rounded-full mb-4">
+        <i data-lucide="test-tubes" size="48" class="text-success"></i>
+    </div>
+    <h3 class="text-lg font-bold mb-2">No tests recorded</h3>
+    <p class="text-secondary mb-6">Log your diagnostic tests and track follow-up schedules.</p>
+    <button class="btn btn-primary btn-add-test">Add Test</button>
+</div>
+
+<!-- Add Test Modal -->
+<div class="modal" id="test-modal">
+    <div class="modal-overlay" onclick="App.modal.close('test-modal')"></div>
+    <div class="modal-content max-w-lg">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Add Test/Follow-up</h3>
+            <button type="button" class="modal-close" onclick="App.modal.close('test-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="test-form">
+                <input type="hidden" id="test_id" name="test_id">
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="member_id" class="form-label">Family Member*</label>
+                        <select id="member_id" name="family_member_id" class="form-control" required>
+                            <!-- Populated via JS -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="test_name" class="form-label">Test Name*</label>
+                        <input type="text" id="test_name" name="test_name" class="form-control" required placeholder="e.g. Complete Blood Count">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="test_date" class="form-label">Test Date*</label>
+                        <input type="date" id="test_date" name="test_date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor" class="form-label">Doctor/Lab Name</label>
+                        <input type="text" id="doctor" name="doctor" class="form-control" placeholder="e.g. Dr. Rao / Metropolis Lab">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="result_summary" class="form-label">Result Summary</label>
+                    <textarea id="result_summary" name="result_summary" class="form-control" rows="2" placeholder="e.g. Normal, or High Cholesterol (240 mg/dL)"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="follow_up_date" class="form-label">Follow-up Date (Optional)</label>
+                    <input type="date" id="follow_up_date" name="follow_up_date" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes" class="form-label">Notes</label>
+                    <input type="text" id="notes" name="notes" class="form-control" placeholder="e.g. Fasting required for follow-up">
+                </div>
+                
+                <div class="modal-footer mt-4">
+                    <button type="button" class="btn btn-secondary" onclick="App.modal.close('test-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-test">Save Test</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/tests.js') }}"></script>
+{% endblock %}

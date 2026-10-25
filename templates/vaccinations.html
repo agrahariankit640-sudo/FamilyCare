@@ -1,0 +1,120 @@
+{% extends "partials/_base.html" %}
+
+{% block page_title %}Vaccinations{% endblock %}
+
+{% block content %}
+<div class="page-header flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-xl font-bold">Vaccinations</h2>
+        <p class="text-secondary">Track immunization schedules and history</p>
+    </div>
+    <button class="btn btn-primary" id="btn-add-vaccination">
+        <i data-lucide="plus"></i> Add Vaccination
+    </button>
+</div>
+
+<div class="card mb-6 p-4">
+    <div class="filter-bar grid grid-cols-1 md-cols-4 gap-4">
+        <div class="form-group mb-0">
+            <select id="filter-member" class="form-control">
+                <option value="">All Family Members</option>
+                <!-- Populated via JS -->
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="table-container card">
+    <table class="table data-table w-full" id="vaccinations-table">
+        <thead>
+            <tr>
+                <th>Vaccine Name</th>
+                <th>Member</th>
+                <th>Date Given</th>
+                <th>Dose</th>
+                <th>Next Due Date</th>
+                <th>Provider/Hospital</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="vaccinations-list">
+            <!-- Populated via JS -->
+            <tr><td colspan="7" class="text-center py-4">Loading vaccinations...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="vaccinations-empty" class="empty-state hidden text-center py-12">
+    <div class="empty-icon bg-purple-100 inline-flex p-4 rounded-full mb-4">
+        <i data-lucide="syringe" size="48" class="text-purple-600"></i>
+    </div>
+    <h3 class="text-lg font-bold mb-2">No vaccinations found</h3>
+    <p class="text-secondary mb-6">Keep a record of your family's immunization history.</p>
+    <button class="btn btn-primary btn-add-vaccination">Add Vaccination</button>
+</div>
+
+<!-- Add Vaccination Modal -->
+<div class="modal" id="vaccination-modal">
+    <div class="modal-overlay" onclick="App.modal.close('vaccination-modal')"></div>
+    <div class="modal-content max-w-lg">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Add Vaccination</h3>
+            <button type="button" class="modal-close" onclick="App.modal.close('vaccination-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="vaccination-form">
+                <input type="hidden" id="vaccination_id" name="vaccination_id">
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="member_id" class="form-label">Family Member*</label>
+                        <select id="member_id" name="family_member_id" class="form-control" required>
+                            <!-- Populated via JS -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="vaccine_name" class="form-label">Vaccine Name*</label>
+                        <input type="text" id="vaccine_name" name="vaccine_name" class="form-control" required placeholder="e.g. COVID-19, Polio">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="vaccination_date" class="form-label">Date Administered*</label>
+                        <input type="date" id="vaccination_date" name="vaccination_date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dose_number" class="form-label">Dose Number/Details</label>
+                        <input type="text" id="dose_number" name="dose_number" class="form-control" placeholder="e.g. 1, 2, Booster">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="hospital" class="form-label">Hospital/Provider Name</label>
+                    <input type="text" id="hospital" name="hospital" class="form-control" placeholder="e.g. City Health Clinic">
+                </div>
+                
+                <div class="form-group">
+                    <label for="next_dose_date" class="form-label">Next Due Date (if applicable)</label>
+                    <input type="date" id="next_dose_date" name="next_dose_date" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes" class="form-label">Notes</label>
+                    <input type="text" id="notes" name="notes" class="form-control" placeholder="e.g. Batch #12345">
+                </div>
+                
+                <div class="modal-footer mt-4">
+                    <button type="button" class="btn btn-secondary" onclick="App.modal.close('vaccination-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-vaccination">Save Vaccination</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/vaccinations.js') }}"></script>
+{% endblock %}
